@@ -1,7 +1,19 @@
 import React from "react";
 import axios from "axios";
 
-const EyeCatch = props => <img src={`${props.url}`} />;
+// css
+import '../node_modules/bulma/bulma.sass';
+
+const EyeCatch = props => (
+// <img src={`${props.url}`} />
+<div className="card">
+  <div className="card-image">
+    <figure className="image is-4by3">
+      <img src={`${props.url}`} alt="Placeholder image" />
+    </figure>
+  </div>
+</div>
+)
 
 const Index = ({ eyecatches }) => (
   // <Layout>
@@ -17,8 +29,20 @@ const Index = ({ eyecatches }) => (
   //   </ul>
   // </Layout>
   <div>
+    <section className="hero">
+  <div className="hero-body">
+    <div className="container">
+      <h1 className="title">
+        Hero title
+      </h1>
+      <h2 className="subtitle">
+        Hero subtitle
+      </h2>
+    </div>
+  </div>
+</section>
     {eyecatches.map(e => (
-      <EyeCatch url={e} />
+      <EyeCatch url={e} key={e} />
     ))}
   </div>
 );
