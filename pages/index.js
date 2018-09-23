@@ -2,48 +2,86 @@ import React from "react";
 import axios from "axios";
 
 // css
-import '../node_modules/bulma/bulma.sass';
+import "../node_modules/bulma/bulma.sass";
 
 const EyeCatch = props => (
-// <img src={`${props.url}`} />
-<div className="card">
-  <div className="card-image">
-    <figure className="image is-4by3">
-      <img src={`${props.url}`} alt="Placeholder image" />
-    </figure>
-  </div>
-</div>
-)
+  // // <img src={`${props.url}`} />
+  // <div className="card">
+  //   <div className="card-image">
+  //     <figure className="image is-4by3">
+  //       <img src={`${props.url}`} alt="Placeholder image" />
+  //     </figure>
+  //   </div>
+  // </div>
 
-const Index = ({ eyecatches }) => (
-  // <Layout>
-  //   <h1>Hacker News - Latest</h1>
-  //   <ul>
-  //     {stories.map(story => (
-  //       <PostLink
-  //         key={story.id}
-  //         id={story.id}
-  //         title={story.title}
-  //       />
-  //     ))}
-  //   </ul>
-  // </Layout>
-  <div>
-    <section className="hero">
-  <div className="hero-body">
-    <div className="container">
-      <h1 className="title">
-        Hero title
-      </h1>
-      <h2 className="subtitle">
-        Hero subtitle
-      </h2>
-    </div>
+  <div class="columns is-mobile">
+    <article class="media column is-half is-offset-one-quarter">
+      <figure class="media-left">
+        <p class="image is-640x480">
+          <a 
+           href={`https://alis.to/ALIS/articles/${props.article_id}`}>
+            <img src={`${props.url}`} />
+          </a>
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong>{props.title}</strong>
+            <br />
+            {props.tags.map(tag => (<small>{tag}|</small>))}
+            <br />
+            {props.overview}...
+          </p>
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item">
+              <span class="icon is-small"><i class="fas fa-reply"></i></span>
+            </a>
+            <a class="level-item">
+              <span class="icon is-small"><i class="fas fa-retweet"></i></span>
+            </a>
+            <a class="level-item">
+              <span class="icon is-small"><i class="fas fa-heart"></i></span>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </article>
   </div>
-</section>
-    {eyecatches.map(e => (
-      <EyeCatch url={e} key={e} />
+);
+
+const Index = ({ articles }) => (
+  
+  // card
+  <div>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28" />
+        </a>
+      </div>
+    </nav>
+    <section className="hero">
+      <div className="hero-body">
+        <div className="container">
+          <h1 className="title">Hero title</h1>
+          <h2 className="subtitle">Hero subtitle</h2>
+        </div>
+      </div>
+    </section>
+    {articles.map(a => (
+      <EyeCatch 
+       url={a.eye_catch_url} 
+       key={a.eye_catch_url}
+       title={a.title}
+       tags={a.tags}
+       overview={a.overview}
+       article_id={a.article_id}
+      />
     ))}
+
   </div>
 );
 
@@ -51,27 +89,23 @@ Index.getInitialProps = async () => {
   const res = await axios.get("https://alis.to/api/articles/popular?limit=10");
   //console.log(res.data.Items)
 
-  let eyecatches = [];
+  let articles = [];
 
-  eyecatches = res.data.Items.map(item => item.eye_catch_url);
-
-  console.log(eyecatches);
-  // const db = await loadDB()
-
-  // const ids = await db.child('topstories').once('value')
-  // let stories = await Promise.all(
-  //   ids.val().slice(0, 10).map(id => db
-  //     .child('item')
-  //     .child(id)
-  //     .once('value')
-  //   )
-  // )
-
+  // items = res.data.Items.map(item => { 
+    for(let item of res.data.Items) {
+      let article = {
+        eye_catch_url: item.eye_catch_url,
+        overview: item.overview,
+        tags: item.tags,
+        title: item.title,
+        article_id: item.article_id
+      }
+      articles.push(article)
+    }
   // stories = stories.map(s => s.val())
-
   // return { stories }
   //let messages = [1,2,3]
-  return { eyecatches };
+  return { articles };
 };
 
 export default Index;
