@@ -5,14 +5,6 @@ import axios from "axios";
 import "../node_modules/bulma/bulma.sass";
 
 const EyeCatch = props => (
-  // // <img src={`${props.url}`} />
-  // <div className="card">
-  //   <div className="card-image">
-  //     <figure className="image is-4by3">
-  //       <img src={`${props.url}`} alt="Placeholder image" />
-  //     </figure>
-  //   </div>
-  // </div>
 
   <div class="columns is-mobile">
     <article class="media column is-half is-offset-one-quarter">
